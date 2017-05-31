@@ -7,11 +7,11 @@ let whiteCardRef = cardRef.child("/whiteCards");
 
 
 function callDictApi(message) {
-    let baseURL = "https://od-api.oxforddictionaries.com:443/api/v1/entries/en/"
-    let endURL = "/definitions"
+    let baseURL = "https://api.pearson.com/v2/dictionaries/laad3/entries?headword="
+    let apiKey = "&apikey=AJUxPAxRPBKVXZ8t2z79XYG2X1JnsEOW"
 
     $.ajax({
-        url: "https://owlbot.info/api/v1/dictionary/owl?format=json",
+        url: baseURL + message + apiKey,
 
         // headers: {
         //     "app_id": "bc40b411",
@@ -23,7 +23,12 @@ function callDictApi(message) {
         //  xhr.setRequestHeader("My-Second-Header", "second value"); 
         //}
     }).done(function(data) {
-        console.log(data)
+        if (data.results[0].senses[0].subsenses !== undefined) {
+            console.log(data.results[0].senses[0].subsenses[0].definition)
+        } else {
+            console.log(data.results[0].senses[0].definition)
+        }
+
     });
 }
 // function shuffleCards(key) {
